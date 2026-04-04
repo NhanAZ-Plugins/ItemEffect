@@ -1,0 +1,25 @@
+name: ItemEffect
+main: kairusds\itemeffect\Main
+version: 1.0.0
+api:
+- 3.0.0
+- 3.0.0-ALPHA5
+author: KairusDarkSeeker
+website: https://twitter.com/kairusds
+#Edit Và Việt Hóa Bởi Ghast Noob
+
+commands:
+  itemeffect:
+    aliases:
+    - ie
+    description: "Thêm Hiệu Ứng Vào Vật Phẩm Của Bạn"
+    permission: pocketmine.command.ie
+
+permissions:
+  itemeffect:
+    description: "Thêm Hiệu Ứng Vào Vật Phẩm Của Bạn"
+    default: op
+    children:
+      pocketmine.command.ie:
+        description: "Thêm Hiệu Ứng Vào Vật Phẩm Của Bạn"
+        default: op
