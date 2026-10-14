@@ -1,13 +1,14 @@
 # ItemEffect
 
-ItemEffect is a historical PocketMine-MP plugin that stores effect names on items and applies them while players hold those items.
+ItemEffect attaches vanilla effect names to an item and refreshes those effects while a player holds the item. The plugin has been ported to Axolotl-PM API 5.0.0. Existing string-list item data named `Effects` is still read.
 
-## Compatibility and status
+## Commands
 
-The manifest declares PocketMine-MP API `3.0.0` and `3.0.0-ALPHA5`. The source uses legacy `Effect`, named tag and `PluginTask` APIs. It has not been ported to Axolotl-PM 5. Do not install it on a current server or use it with valuable player inventories.
+- `/ie list` lists effects that can be maintained while an item is held.
+- `/ie add <effect> [player]` attaches one listed effect to the held item. Without a player name, the command sender must be a player. The command requires `pocketmine.command.ie`, which defaults to operators.
 
-The historical `/itemeffect` command has the alias `/ie` and can add an effect to the item held by a named online player. A future port needs a review of permission behavior, malformed command input tests, item data migration and gameplay verification before use.
+Instant effects such as instant damage and instant health are excluded because repeatedly applying an instant effect while an item is held would repeatedly trigger its one-shot result. Refreshable effects are reapplied only when their remaining duration is low, and a stronger active effect is preserved. Switching items lets the prior effect expire naturally within 20 ticks.
 
-The manifest credits KairusDarkSeeker and records a Vietnamese edit and translation by Ghast Noob. Preserve both credits. There is no LICENSE file, CI workflow, DevTools PHAR, Axolotl-PM 5 runtime test or verified current release. Resolve redistribution rights before publishing a modified build.
+The manifest retains KairusDarkSeeker as author and the historical Vietnamese edit/translation credit to Ghast Noob. The repository has no LICENSE file, so no stable release or separately distributed PHAR is published. The repository is archived after this API 5 source port and its CI gates.
 
-For questions about the NhanAZ ecosystem, use [NhanAZ Discord](https://discord.gg/j2X83ujT6c).
+CI runs PHPStan at maximum level and builds and inspects the PHAR against pinned Axolotl-PM 5.0.0 and 5.49.1 source revisions. It also starts the built plugin on Axolotl-PM 5.49.1. Those checks confirm the tested points, not every 5.x release. A connected-player command, item update, or gameplay effect was not tested.
