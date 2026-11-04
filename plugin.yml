@@ -2,7 +2,7 @@ name: ItemEffect
 main: kairusds\itemeffect\Main
 version: 1.0.0
 api: 5.0.0
-author: KairusDarkSeeker
+authors: ["NhanAZ", "KairusDarkSeeker"]
 website: https://twitter.com/kairusds
 #Edit Và Việt Hóa Bởi Ghast Noob
 
