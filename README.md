@@ -14,6 +14,11 @@ Held item effects plugin for Axolotl-PM API 5.
 
 Instant effects such as instant damage and instant health are excluded because repeatedly applying an instant effect while an item is held would repeatedly trigger its one-shot result. Refreshable effects are reapplied only when their remaining duration is low, and a stronger active effect is preserved. Switching items lets the prior effect expire naturally within 20 ticks.
 
-The manifest retains KairusDarkSeeker as author and the historical Vietnamese edit/translation credit to Ghast Noob. The repository has no LICENSE file, so no stable release or separately distributed PHAR is published. The repository is archived after this API 5 source port and its CI gates.
+The manifest retains KairusDarkSeeker as author and the historical Vietnamese edit/translation credit to NhanAZ. The repository has no LICENSE file, so no stable release or separately distributed PHAR is published. The repository is archived after this API 5 source port and its CI gates.
 
 CI runs PHPStan at maximum level and builds and inspects the PHAR against pinned Axolotl-PM 5.0.0 and 5.49.1 source revisions. It also starts the built plugin on Axolotl-PM 5.49.1. Those checks confirm the tested points, not every 5.x release. A connected-player command, item update, or gameplay effect was not tested.
+
+
+## Credits
+
+Authors: NhanAZ, KairusDarkSeeker.
