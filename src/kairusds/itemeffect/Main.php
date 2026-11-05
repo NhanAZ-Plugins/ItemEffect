@@ -34,18 +34,18 @@ final class Main extends PluginBase implements Listener{
 		$this->getScheduler()->scheduleRepeatingTask(new ClosureTask(function() : void{
 			$this->applyHeldItemEffects();
 		}), 1);
-		$this->getLogger()->info("Đã Hoạt Động");
+		$this->getLogger()->info("ItemEffect enabled.");
 	}
 
 	public function onCommand(CommandSender $sender, Command $command, string $label, array $args) : bool{
 		if(!$sender->hasPermission("pocketmine.command.ie")){
-			$sender->sendMessage(TextFormat::RED . "Bạn không có quyền dùng lệnh này.");
+			$sender->sendMessage(TextFormat::RED . "You do not have permission to use this command.");
 			return true;
 		}
 
 		$subCommand = strtolower($args[0] ?? "");
 		if($subCommand === "list" && count($args) === 1){
-			$sender->sendMessage(TextFormat::GREEN . "Hiệu ứng có thể gắn: " . implode(TextFormat::WHITE . ", " . TextFormat::AQUA, array_keys($this->supportedEffects)));
+			$sender->sendMessage(TextFormat::GREEN . "Available effects: " . implode(TextFormat::WHITE . ", " . TextFormat::AQUA, array_keys($this->supportedEffects)));
 			return true;
 		}
 
@@ -56,7 +56,7 @@ final class Main extends PluginBase implements Listener{
 
 		$effectName = strtolower(trim($args[1]));
 		if(!isset($this->supportedEffects[$effectName])){
-			$sender->sendMessage(TextFormat::RED . "Hiệu ứng không hợp lệ hoặc không thể duy trì. Dùng /ie list để xem danh sách.");
+			$sender->sendMessage(TextFormat::RED . "Invalid or unsupported effect. Use /ie list to see available effects.");
 			return true;
 		}
 
@@ -64,7 +64,7 @@ final class Main extends PluginBase implements Listener{
 		if(isset($args[2])){
 			$target = $this->getServer()->getPlayerByPrefix($args[2]);
 			if($target === null){
-				$sender->sendMessage(TextFormat::RED . "Người chơi không trực tuyến hoặc tên không khớp duy nhất.");
+				$sender->sendMessage(TextFormat::RED . "The player is offline or the name is not unique.");
 				return true;
 			}
 		}elseif($target === null){
@@ -74,21 +74,21 @@ final class Main extends PluginBase implements Listener{
 
 		$item = $target->getInventory()->getItemInHand();
 		if($item->isNull()){
-			$sender->sendMessage(TextFormat::RED . "Người chơi cần cầm một vật phẩm trước khi gắn hiệu ứng.");
+			$sender->sendMessage(TextFormat::RED . "The player must hold an item before adding an effect.");
 			return true;
 		}
 
 		$namedTag = $item->getNamedTag();
 		$existingTag = $namedTag->getTag("Effects");
 		if($existingTag !== null && (!$existingTag instanceof ListTag || $existingTag->getTagType() !== NBT::TAG_String)){
-			$sender->sendMessage(TextFormat::RED . "Dữ liệu hiệu ứng trên vật phẩm không hợp lệ; vật phẩm chưa được sửa.");
+			$sender->sendMessage(TextFormat::RED . "The item's effect data is invalid; the item was not changed.");
 			return true;
 		}
 
 		$effectList = $existingTag instanceof ListTag ? $existingTag : new ListTag();
 		foreach($effectList->getValue() as $storedEffect){
 			if($storedEffect instanceof StringTag && strtolower(trim($storedEffect->getValue())) === $effectName){
-				$sender->sendMessage(TextFormat::YELLOW . "Vật phẩm đã có hiệu ứng " . $effectName . ".");
+				$sender->sendMessage(TextFormat::YELLOW . "The item already has the " . $effectName . " effect.");
 				return true;
 			}
 		}
@@ -109,7 +109,7 @@ final class Main extends PluginBase implements Listener{
 		}
 
 		$target->getInventory()->setItemInHand($item);
-		$sender->sendMessage(TextFormat::GREEN . "Đã gắn hiệu ứng " . $effectName . " vào vật phẩm của " . $target->getName() . ".");
+		$sender->sendMessage(TextFormat::GREEN . "Added the " . $effectName . " effect to " . $target->getName() . "'s item.");
 		return true;
 	}
 
@@ -143,7 +143,7 @@ final class Main extends PluginBase implements Listener{
 	}
 
 	private function sendUsage(CommandSender $sender) : void{
-		$sender->sendMessage(TextFormat::YELLOW . "Cách dùng: /ie list | /ie add <hiệu ứng> [người chơi]");
-		$sender->sendMessage(TextFormat::GRAY . "Người chơi có thể bỏ tên để gắn hiệu ứng vào vật phẩm đang cầm.");
+		$sender->sendMessage(TextFormat::YELLOW . "Usage: /ie list | /ie add <effect> [player]");
+		$sender->sendMessage(TextFormat::GRAY . "Omit the player name to add an effect to the item you are holding.");
 	}
 }
